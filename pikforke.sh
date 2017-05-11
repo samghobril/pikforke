@@ -13,11 +13,12 @@ grepFromUrl() {
 if [ $# -lt 1 ] 
 then
     read -p 'Artist: ' artist
-    artist=${artist// /%20}
+    
 else
-    artist=${1// /%20}
+    artist=$1
 fi
-url="http://pitchfork.com/search/?query=$artist"
+encodedArtist=${artist// /%20}
+url="http://pitchfork.com/search/?query=$encodedArtist"
 artistUrl=$(grepFromUrl -u $url "artist-name" 7 0 | grep Ahref | grep -o "\/.*")
 if [ -z "$artistUrl" ]
 then
