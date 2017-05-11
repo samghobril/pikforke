@@ -19,6 +19,11 @@ else
 fi
 url="http://pitchfork.com/search/?query=$artist"
 artistUrl=$(grepFromUrl -u $url "artist-name" 7 0 | grep Ahref | grep -o "\/.*")
+if [ -z "$artistUrl" ]
+then
+      echo "No reviews found for $artist on Pitchfork."
+      exit
+fi
 fullUrl="http://pitchfork.com$artistUrl"
 albums=$(grepFromUrl $fullUrl "/reviews/albums/[0-9]" 1 1| grep -o "\/.*")
 for album in $albums
